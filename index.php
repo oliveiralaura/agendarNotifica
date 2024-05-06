@@ -1,18 +1,18 @@
 <?php
-    include_once 'config.php';
+include_once 'config.php';
 
-    $status = $statusMsg = '';
-    if(!empty($_SESSION['status_response'])){
-        $status_response['status'];
-        $status = $status_response['status'];
-        $statusMsg = $status_response['status_msg'];
-    }
+$status = $statusMsg = '';
+if (!empty($_SESSION['status_response'])) {
+    $status_response = $_SESSION['status_response']; 
+    $status = $status_response['status'];
+    $statusMsg = $status_response['status_msg'];
+}
 
-    $postData = '';
-    if(!empty($_SESSION['postData'])){
-        $postData = $_SESSION['postData'];
-        unset($_SESSION['postData']);
-    }
+$postData = array(); 
+if (!empty($_SESSION['postData'])) {
+    $postData = $_SESSION['postData'];
+    unset($_SESSION['postData']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,9 +50,9 @@
                     </div>
                     <div class="form-group">
                         <label>Hora</label>
-                        <input type="time" name="time-from" class="form-control" id="time-from" value="<?php echo !empty($postData['time_from'])?$postData['time_from']:''; ?>">
+                        <input type="time" name="time_from" class="form-control" id="time_from" value="<?php echo !empty($postData['time_from'])?$postData['time_from']:''; ?>">
                         <span>TO</span>
-                        <input type="time" name="time-to" id="time-to" class="form-control" value="<?php echo !empty($postData['time_to'])?$postData['time_to']:''; ?>">
+                        <input type="time" name="time_to" id="time_to" class="form-control" value="<?php echo !empty($postData['time_to'])?$postData['time_to']:''; ?>">
                     </div>
                     <div class="form-group">
                         <input type="submit" name="submit" class="form-control btn-primary" id="submit" value="Adicionar evento">

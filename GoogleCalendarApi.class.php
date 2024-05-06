@@ -14,22 +14,23 @@ class GoogleCalendarApi{
 
     function initialize($params = array()) {
         if (count($params) > 0){
-            foreach($params as $key -> $val){
+            foreach($params as $key => $val){ // Substitua -> por =>
                 if(isset($this->$key)){
                     $this->$key = $val;
                 }
             }
         }
     }
+    
 
     public function GetAccessToken($client_id, $redirect_uri, $client_secret, $code){
-        $curlpost ='client_id=' . $client_id. '&redirect_uri=' . $redirect_uri. '&client_secret=' . $client_secret . '&code='. $code . '&grant_type=authorization_code';
+        $curlpost = 'client_id=' . $client_id. '&redirect_uri=' . $redirect_uri. '&client_secret=' . $client_secret . '&code='. $code . '&grant_type=authorization_code';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, self :: OAUTH2_TOKEN_URI);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlpost);
         $data = json_decode(curl_exec($ch), true);
         $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
 
@@ -141,7 +142,8 @@ class GoogleCalendarApi{
     }
 
     private function getTimezoneOffset($timezone = 'America/Los_Angeles'){
-        $current = $timezone_open($timezone);
+        $current = timezone_open($timezone);
+        
         $utcTime = new \DateTime('now', new DateTimeZone('UTC')); 
         $offsetInSecs = timezone_offset_get($current, $utcTime);
         $hoursAndSec = gmdate('H:i', abs ($offsetInSecs));

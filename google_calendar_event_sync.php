@@ -28,21 +28,28 @@ $status = 'danger';
                 );
                 $event_datetime = array(
                     'event_date' => $eventData['date'],
-                    'start_time' => $eventData['start_time'],
+                    'start_time' => $eventData['time_from'],
                     'end_time' => $eventData['time_to']
                 );
                 
 
-                $access_token_sess = $_SESSION['google_access_token'];
-                if(!empty($access_token_sess)){
-                    $access_token = $access_token_sess;
-                }else{
-                    $data = $GoogleCalendarApi->GetAccessToken (GOOGLE_CLIENT_ID, REDIRECT_URI, GOOGLE_CLIENT_SECRET, $_GET['code']);
+                $access_token = null;
+
+                if (isset($_SESSION['google_access_token'])) {
+
+                    $access_token = $_SESSION['google_access_token'];
+
+                } else {
+                    
+                    $data = $GoogleCalendarApi->GetAccessToken(GOOGLE_CLIENT_ID, REDIRECT_URI, GOOGLE_CLIENT_SECRET, $_GET['code']);
                     $access_token = $data['access_token'];
+                    
                     $_SESSION['google_access_token'] = $access_token;
                 }
 
-                if(!empty($access_toker)) {
+
+
+                if(!empty($access_token)) {
                     try {
                         $user_timezone = $GoogleCalendarApi->GetUserCalendarTimezone($access_token);
 
@@ -57,12 +64,12 @@ $status = 'danger';
                             $update = $stmt->execute();
 
                             unset($_SESSION['last_event_id']);
-                            unset($_SESSION['google_acess_token']);
+                            unset($_SESSION['google_access_token']);
 
-                            $status = 'sucess';
-                            $statusMsg = '<p>Event #'.$event_id.' foi adicionado com sucesso</p>';
-                            $statusMsg = '<p><a href="https://calendar.google.com/calendar/" target="_blank">Abrir calendário</a>';
-                        }
+                            $status = 'success';
+                            $statusMsg .= '<p>Event #'.$event_id.' foi adicionado com sucesso</p>';
+                            $statusMsg .= '<p><a href="https://calendar.google.com/calendar/" target="_blank">Abrir calendário</a>';
+                            }
                     } catch(Exception $e) {
                         $statusMsg = $e->getMessage();
                     }
