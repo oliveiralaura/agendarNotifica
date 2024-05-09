@@ -28,7 +28,7 @@ if (!empty($_SESSION['postData'])) {
         <h1>Adicionando evento ao calendário do google</h1>
         <div class="wrapper">
             <?php if(!empty($statusMsg)){ ?>
-                <div class="alert alert-<?php echo $status; ?>"><?php $statusMsg; ?></div>
+                <div class="alert alert-<?php echo $status; ?>"><?php echo $statusMsg; ?></div>
             <?php } ?>
             <div class="col-md-12">
                 <form action="addEvent.php" method="post" class="form">

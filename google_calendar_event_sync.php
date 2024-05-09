@@ -53,7 +53,7 @@ $status = 'danger';
                     try {
                         $user_timezone = $GoogleCalendarApi->GetUserCalendarTimezone($access_token);
 
-                        $google_event_id = $GoogleCalendarApi->CreateCalendarEvent($access_token, 'primary', $calendar_event, 0, $event_datetime, $user_timezone);
+                        $google_event_id = $GoogleCalendarApi->CreateCalendarEvent($access_token, 'fabiobarboeira1@gmail.com', $calendar_event, 0, $event_datetime, $user_timezone);
 
                         if($google_event_id){
                             $sqlQ = 'UPDATE events set google_calendar_event_id=? where id=?';
